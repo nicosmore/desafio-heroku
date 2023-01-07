@@ -31,7 +31,8 @@ app.use("*", (req, res) => {
     });
   if (res.status(404)) logger.warn("Ruta no existente");
 });
+app.set("port", PORT)
 
-app.listen(PORT, () => {
+/* app.listen(PORT, () => {
   console.log('Server listening on', PORT);
-});
+}); */
