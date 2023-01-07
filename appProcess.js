@@ -4,6 +4,7 @@ const cluster = require("cluster");
 const os = require("os");
 const config = require("./config");
 const logger = require("./logger/winston");
+const { send } = require("process");
 
 const PORT = process.argv[2] || 8080;
 
@@ -12,6 +13,10 @@ const app = express();
 app.use("/api", apisRoutesProcess);
 
 //app.use(logger);
+
+app.get("/", (req, res) => {
+  res.send("HOME")
+});
 
 //Muestra servidor
 app.get("/datos", (req, res) => {
