@@ -1,12 +1,8 @@
 const express = require("express");
 const apisRoutesProcess = require("./process/app.routers.fork");
-const cluster = require("cluster");
-const os = require("os");
-const config = require("./config");
 const logger = require("./logger/winston");
-const { send } = require("process");
 
-const PORT = process.argv[2] || 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 
@@ -15,7 +11,7 @@ app.use("/api", apisRoutesProcess);
 //app.use(logger);
 
 app.get("/", (req, res) => {
-  res.send("HOME")
+  res.send("HOME");
 });
 
 //Muestra servidor
@@ -26,22 +22,16 @@ app.get("/datos", (req, res) => {
   res.send(html);
 });
 
-app.use('*', (req, res)=>{
-    res.status(404).send({error:-2, descripcion:`ruta ${req.baseUrl} metodo ${req.method} no implementado`})
-    if (res.status(404)) logger.warn("Ruta no existente")
+app.use("*", (req, res) => {
+  res
+    .status(404)
+    .send({
+      error: -2,
+      descripcion: `ruta ${req.baseUrl} metodo ${req.method} no implementado`,
+    });
+  if (res.status(404)) logger.warn("Ruta no existente");
 });
 
-const clusterMode = process.argv[3] === "CLUSTER";
-
-if (clusterMode && cluster.isPrimary) {
-  const NUM_WORKERS = os.cpus().length; //cantidad de nucleos
-  for (let i = 0; i < NUM_WORKERS; i++) {
-    cluster.fork();
-  }
-} else {
-  app.listen(PORT, config.HOST, () => {
-    console.log(`Server listening on http://${config.HOST}:${PORT}`);
-  });
-}
-
-
+app.listen(PORT, () => {
+  console.log('Server listening on', PORT);
+});

@@ -1,6 +1,4 @@
 const express = require("express");
-const { fork } = require('child_process');
-const config = require('../config');
 const os = require('os');
 const compression = require('compression');
 const logger = require("../logger/winston");
@@ -23,10 +21,8 @@ router.get("/randoms", (req, res) => {
 const NUM_WORKERS = os.cpus().length;
 
 router.get("/info", (req, res) => {  
-  let memory = JSON.stringify(process.memoryUsage());
-  let args = JSON.stringify(config.ARGS);
-  res.send(` 
-    <h4>PORT:${args}</h4>    
+  let memory = JSON.stringify(process.memoryUsage());  
+  res.send(`        
     <h4>Num.Procesadores:${NUM_WORKERS}</h4>    
     <h4>Plataforma:${process.platform}</h4>
     <h4>Node:${process.version}</h4>
@@ -38,10 +34,8 @@ router.get("/info", (req, res) => {
 });
 
 router.get("/infozip", compression(), (req, res) => {  
-  let memory = JSON.stringify(process.memoryUsage());
-  let args = JSON.stringify(config.ARGS);
-  res.send(` 
-    <h4>PORT:${args}</h4>    
+  let memory = JSON.stringify(process.memoryUsage());  
+  res.send(`         
     <h4>Num.Procesadores:${NUM_WORKERS}</h4>    
     <h4>Plataforma:${process.platform}</h4>
     <h4>Node:${process.version}</h4>
