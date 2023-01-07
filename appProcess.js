@@ -10,10 +10,6 @@ app.use("/api", apisRoutesProcess);
 
 //app.use(logger);
 
-app.get("/", (req, res) => {
-  res.send("HOME");
-});
-
 //Muestra servidor
 app.get("/datos", (req, res) => {
   const html = `Servidor express <span style="color: coral; font-weight: bold;">(NginX)</span> | ${PORT} - <b>PID => ${
@@ -31,8 +27,7 @@ app.use("*", (req, res) => {
     });
   if (res.status(404)) logger.warn("Ruta no existente");
 });
-app.set("port", PORT)
 
-/* app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log('Server listening on', PORT);
-}); */
+});
