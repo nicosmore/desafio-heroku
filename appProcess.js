@@ -6,12 +6,16 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
-app.use("/api", apisRoutesProcess);
+app.get("https://git.heroku.com/desafio-nico.git/", (req, res) => {
+  res.send("HOME");
+});
+
+app.use("https://git.heroku.com/desafio-nico.git/api", apisRoutesProcess);
 
 //app.use(logger);
 
 //Muestra servidor
-app.get("/datos", (req, res) => {
+app.get("https://git.heroku.com/desafio-nico.git/datos", (req, res) => {
   const html = `Servidor express <span style="color: coral; font-weight: bold;">(NginX)</span> | ${PORT} - <b>PID => ${
     process.pid
   }</b> - ${new Date().toLocaleString()}`;
